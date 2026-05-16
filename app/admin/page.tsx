@@ -8,6 +8,8 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+const ADMIN_PASSWORD = "Basketball5";
+
 const imageMap: Record<string, string> = {
   Sumiya: "/Sumiya 10.jpg",
   Toshno: "/Toshno 4.jpg",
@@ -32,6 +34,9 @@ type Player = {
 };
 
 export default function AdminPage() {
+  const [authed, setAuthed] = useState(false);
+  const [input, setInput] = useState("");
+  const [error, setError] = useState(false);
   const [players, setPlayers] = useState<Player[]>([]);
   const [newName, setNewName] = useState("");
   const [newImage, setNewImage] = useState<File | null>(null);
@@ -39,12 +44,22 @@ export default function AdminPage() {
   const [deleteTarget, setDeleteTarget] = useState("");
 
   useEffect(() => {
+    if (!authed) return;
     const fetchPlayers = async () => {
       const { data } = await supabase.from("players").select("*");
       if (data) setPlayers(data);
     };
     fetchPlayers();
-  }, []);
+  }, [authed]);
+
+  const handleLogin = () => {
+    if (input === ADMIN_PASSWORD) {
+      setAuthed(true);
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
 
   const updatePlayer = async (name: string, changes: Partial<Player>) => {
     const player = players.find((p) => p.name === name)!;
@@ -110,6 +125,29 @@ export default function AdminPage() {
     if (player.image && player.image.startsWith("http")) return player.image;
     return imageMap[player.name] || "/file.svg";
   };
+
+  if (!authed) {
+    return (
+      <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-8 gap-4">
+        <h1 className="text-2xl font-black uppercase">Admin</h1>
+        <input
+          type="password"
+          placeholder="パスワード"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+          className="bg-gray-800 px-4 py-3 rounded text-white w-full max-w-xs"
+        />
+        {error && <div className="text-red-400 text-sm">パスワードが違います</div>}
+        <button
+          onClick={handleLogin}
+          className="bg-white text-black px-6 py-3 rounded font-black w-full max-w-xs"
+        >
+          ログイン
+        </button>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-black text-white p-1">
