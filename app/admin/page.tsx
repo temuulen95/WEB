@@ -101,33 +101,32 @@ export default function AdminPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white p-8">
-      <h1 className="text-4xl font-bold mb-8">Admin Panel</h1>
+    <main className="min-h-screen bg-black text-white p-4">
+      <h1 className="text-2xl font-bold mb-4 text-center">⚙️ Admin Panel</h1>
 
-      {/* 選手一覧 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="flex flex-col gap-3">
         {players.map((player) => (
           <div
             key={player.name}
-            className="border border-gray-700 p-4 rounded flex gap-4 items-center"
+            className="border border-gray-700 rounded p-3 flex items-center gap-3"
           >
             <img
               src={getImage(player)}
               alt={player.name}
-              className="w-16 h-16 rounded object-cover"
+              className="w-10 h-10 rounded-full object-cover flex-shrink-0"
             />
-            <div className="flex-1">
-              <div className="text-xl font-bold">{player.name}</div>
-              <div className="text-sm text-gray-400">
-                Points: {player.points} | Wins: {player.wins} | Losses: {player.losses}
+            <div className="flex-1 min-w-0">
+              <div className="font-bold">{player.name}</div>
+              <div className="text-xs text-gray-400">
+                {player.points}pts / W:{player.wins} L:{player.losses}
               </div>
-              <div className="mt-2 flex gap-2 flex-wrap">
-                <button onClick={() => updatePlayer(player.name, { points: player.points + 1 })} className="bg-blue-600 px-3 py-1 rounded">+1 Point</button>
-                <button onClick={() => updatePlayer(player.name, { points: Math.max(0, player.points - 1) })} className="bg-gray-600 px-3 py-1 rounded">-1 Point</button>
-                <button onClick={() => updatePlayer(player.name, { wins: player.wins + 1 })} className="bg-green-600 px-3 py-1 rounded">+Win</button>
-                <button onClick={() => updatePlayer(player.name, { wins: Math.max(0, player.wins - 1) })} className="bg-green-900 px-3 py-1 rounded">-Win</button>
-                <button onClick={() => updatePlayer(player.name, { losses: player.losses + 1 })} className="bg-red-600 px-3 py-1 rounded">+Loss</button>
-                <button onClick={() => updatePlayer(player.name, { losses: Math.max(0, player.losses - 1) })} className="bg-red-900 px-3 py-1 rounded">-Loss</button>
+              <div className="mt-2 flex flex-wrap gap-1">
+                <button onClick={() => updatePlayer(player.name, { points: player.points + 1 })} className="bg-blue-600 px-2 py-1 rounded text-xs">+Pt</button>
+                <button onClick={() => updatePlayer(player.name, { points: Math.max(0, player.points - 1) })} className="bg-gray-600 px-2 py-1 rounded text-xs">-Pt</button>
+                <button onClick={() => updatePlayer(player.name, { wins: player.wins + 1 })} className="bg-green-600 px-2 py-1 rounded text-xs">+W</button>
+                <button onClick={() => updatePlayer(player.name, { wins: Math.max(0, player.wins - 1) })} className="bg-green-900 px-2 py-1 rounded text-xs">-W</button>
+                <button onClick={() => updatePlayer(player.name, { losses: player.losses + 1 })} className="bg-red-600 px-2 py-1 rounded text-xs">+L</button>
+                <button onClick={() => updatePlayer(player.name, { losses: Math.max(0, player.losses - 1) })} className="bg-red-900 px-2 py-1 rounded text-xs">-L</button>
               </div>
             </div>
           </div>
@@ -135,13 +134,14 @@ export default function AdminPage() {
       </div>
 
       {/* 選手追加フォーム */}
-      <div className="border border-gray-700 p-4 rounded mt-8 flex gap-4 items-center">
+      <div className="border border-gray-700 rounded p-4 mt-6 flex flex-col gap-3">
+        <h2 className="font-bold text-lg">選手追加</h2>
         <input
           type="text"
           placeholder="名前"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
-          className="bg-gray-800 px-3 py-2 rounded text-white flex-1"
+          className="bg-gray-800 px-3 py-2 rounded text-white"
         />
         <input
           type="file"
