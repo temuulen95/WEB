@@ -36,6 +36,7 @@ export default function AdminPage() {
   const [newName, setNewName] = useState("");
   const [newImage, setNewImage] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState("");
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -93,6 +94,16 @@ export default function AdminPage() {
     }
 
     setUploading(false);
+  };
+
+  const deletePlayer = async () => {
+    if (!deleteTarget) return;
+    const confirmed = window.confirm(`${deleteTarget}を削除しますか？`);
+    if (!confirmed) return;
+
+    await supabase.from("players").delete().eq("name", deleteTarget);
+    setPlayers((prev) => prev.filter((p) => p.name !== deleteTarget));
+    setDeleteTarget("");
   };
 
   const getImage = (player: Player) => {
@@ -160,6 +171,28 @@ export default function AdminPage() {
           className="bg-yellow-500 px-4 py-3 rounded font-bold text-black disabled:opacity-50 w-full"
         >
           {uploading ? "登録中..." : "追加"}
+        </button>
+      </div>
+
+      {/* 選手削除フォーム */}
+      <div className="border border-red-900 rounded p-4 mt-4 flex flex-col gap-3">
+        <h2 className="font-bold text-lg text-red-400">選手削除</h2>
+        <select
+          value={deleteTarget}
+          onChange={(e) => setDeleteTarget(e.target.value)}
+          className="bg-gray-800 px-3 py-2 rounded text-white w-full"
+        >
+          <option value="">選手を選ぶ</option>
+          {players.map((p) => (
+            <option key={p.name} value={p.name}>{p.name}</option>
+          ))}
+        </select>
+        <button
+          onClick={deletePlayer}
+          disabled={!deleteTarget}
+          className="bg-red-600 px-4 py-3 rounded font-bold disabled:opacity-50 w-full"
+        >
+          削除
         </button>
       </div>
     </main>
