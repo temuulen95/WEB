@@ -63,30 +63,57 @@ export default function RankingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">🏀 Ranking</h1>
-      <div className="flex flex-col gap-2">
+    <main className="min-h-screen bg-black text-white">
+      {/* ヘッダー */}
+      <div className="bg-black border-b-4 border-white px-4 py-4">
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-10 bg-white"></div>
+          <div>
+            <div className="text-xs text-gray-400 tracking-widest uppercase">Season Ranking</div>
+            <h1 className="text-2xl font-black tracking-tight uppercase leading-none">Leaderboard</h1>
+          </div>
+        </div>
+      </div>
+
+      {/* ランキングリスト */}
+      <div className="px-3 py-3 flex flex-col gap-2">
         {players.map((player, index) => (
           <div
             key={player.name}
-            className="border border-gray-700 rounded p-3 flex items-center gap-3"
+            className={`flex items-center gap-3 p-3 rounded ${
+              index === 0
+                ? "bg-white text-black"
+                : index === 1
+                ? "bg-gray-200 text-black"
+                : index === 2
+                ? "bg-gray-400 text-black"
+                : "bg-gray-900 text-white border border-gray-800"
+            }`}
           >
-            <div className="text-lg font-bold w-8 text-center text-yellow-400">
-              #{index + 1}
+            {/* ランク */}
+            <div className={`text-2xl font-black w-8 text-center ${index === 0 ? "text-black" : "text-gray-400"}`}>
+              {index + 1}
             </div>
+
+            {/* 画像 */}
             <img
               src={getImage(player)}
               alt={player.name}
-              className="w-12 h-12 rounded-full object-cover"
+              className="w-12 h-12 rounded-full object-cover border-2 border-black"
             />
+
+            {/* 名前・成績 */}
             <div className="flex-1">
-              <div className="font-bold">{player.name}</div>
-              <div className="text-xs text-gray-400">
-                W: {player.wins} / L: {player.losses}
+              <div className="font-black text-sm uppercase tracking-wide">{player.name}</div>
+              <div className={`text-xs ${index < 3 ? "text-gray-600" : "text-gray-500"}`}>
+                {player.wins}W - {player.losses}L
               </div>
             </div>
-            <div className="text-xl font-bold text-blue-400">
-              {player.points}pts
+
+            {/* ポイント */}
+            <div className="text-right">
+              <div className="text-xl font-black">{player.points}</div>
+              <div className={`text-xs uppercase tracking-widest ${index < 3 ? "text-gray-600" : "text-gray-500"}`}>pts</div>
             </div>
           </div>
         ))}
