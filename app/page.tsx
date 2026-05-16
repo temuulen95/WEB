@@ -64,14 +64,17 @@ export default function RankingPage() {
 
   return (
     <main className="min-h-screen bg-black text-white">
-      {/* ヘッダー */}
-      <div className="bg-black border-b-4 border-white px-4 py-4">
-        <div className="flex items-center gap-3">
-          <div className="w-2 h-10 bg-white"></div>
-          <div>
-            <div className="text-xs text-gray-400 tracking-widest uppercase">Season Ranking</div>
-            <h1 className="text-2xl font-black tracking-tight uppercase leading-none">Leaderboard</h1>
-          </div>
+      {/* ヒーロー画像 */}
+      <div className="relative w-full h-56 overflow-hidden">
+        <img
+          src="/team.JPEG"
+          alt="Friends League Japan"
+          className="w-full h-full object-cover opacity-70"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black" />
+        <div className="absolute bottom-4 left-4">
+          <div className="text-xs text-gray-400 tracking-widest uppercase">Friends League Japan</div>
+          <h1 className="text-3xl font-black tracking-tight uppercase leading-none">Leaderboard</h1>
         </div>
       </div>
 
@@ -90,27 +93,20 @@ export default function RankingPage() {
                 : "bg-gray-900 text-white border border-gray-800"
             }`}
           >
-            {/* ランク */}
-            <div className={`text-2xl font-black w-8 text-center ${index === 0 ? "text-black" : "text-gray-400"}`}>
+            <div className={`text-2xl font-black w-8 text-center ${index < 3 ? "text-black" : "text-gray-400"}`}>
               {index + 1}
             </div>
-
-            {/* 画像 */}
             <img
               src={getImage(player)}
               alt={player.name}
               className="w-12 h-12 rounded-full object-cover border-2 border-black"
             />
-
-            {/* 名前・成績 */}
             <div className="flex-1">
               <div className="font-black text-sm uppercase tracking-wide">{player.name}</div>
               <div className={`text-xs ${index < 3 ? "text-gray-600" : "text-gray-500"}`}>
                 {player.wins}W - {player.losses}L
               </div>
             </div>
-
-            {/* ポイント */}
             <div className="text-right">
               <div className="text-xl font-black">{player.points}</div>
               <div className={`text-xs uppercase tracking-widest ${index < 3 ? "text-gray-600" : "text-gray-500"}`}>pts</div>
