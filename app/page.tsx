@@ -63,38 +63,33 @@ export default function RankingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white p-8">
-      <h1 className="text-4xl font-bold mb-8">Ranking Table</h1>
-      <div className="overflow-x-auto">
-        <table className="w-full border border-gray-700 text-left">
-          <thead className="bg-gray-900">
-            <tr>
-              <th className="p-3">Rank</th>
-              <th className="p-3">Player</th>
-              <th className="p-3">Points</th>
-              <th className="p-3">Wins</th>
-              <th className="p-3">Losses</th>
-            </tr>
-          </thead>
-          <tbody>
-            {players.map((player, index) => (
-              <tr key={player.name} className="border-t border-gray-800 hover:bg-gray-900">
-                <td className="p-3 font-bold">#{index + 1}</td>
-                <td className="p-3 flex items-center gap-3">
-                  <img
-                    src={getImage(player)}
-                    alt={player.name}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  {player.name}
-                </td>
-                <td className="p-3">{player.points}</td>
-                <td className="p-3 text-green-400">{player.wins}</td>
-                <td className="p-3 text-red-400">{player.losses}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <main className="min-h-screen bg-black text-white p-4">
+      <h1 className="text-2xl font-bold mb-4 text-center">🏀 Ranking</h1>
+      <div className="flex flex-col gap-2">
+        {players.map((player, index) => (
+          <div
+            key={player.name}
+            className="border border-gray-700 rounded p-3 flex items-center gap-3"
+          >
+            <div className="text-lg font-bold w-8 text-center text-yellow-400">
+              #{index + 1}
+            </div>
+            <img
+              src={getImage(player)}
+              alt={player.name}
+              className="w-12 h-12 rounded-full object-cover"
+            />
+            <div className="flex-1">
+              <div className="font-bold">{player.name}</div>
+              <div className="text-xs text-gray-400">
+                W: {player.wins} / L: {player.losses}
+              </div>
+            </div>
+            <div className="text-xl font-bold text-blue-400">
+              {player.points}pts
+            </div>
+          </div>
+        ))}
       </div>
     </main>
   );
