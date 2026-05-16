@@ -101,25 +101,25 @@ export default function AdminPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white p-2">
-      <h1 className="text-xl font-bold mb-3 text-center">⚙️ Admin Panel</h1>
+    <main className="min-h-screen bg-black text-white p-1">
+      <h1 className="text-lg font-bold mb-2 text-center">⚙️ Admin</h1>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1">
         {players.map((player) => (
           <div
             key={player.name}
-            className="border border-gray-700 rounded p-2 flex flex-col items-center gap-1"
+            className="border border-gray-700 rounded p-1 flex flex-col items-center gap-1"
           >
             <img
               src={getImage(player)}
               alt={player.name}
-              className="w-10 h-10 rounded-full object-cover"
+              className="w-8 h-8 rounded-full object-cover"
             />
-            <div className="font-bold text-sm">{player.name}</div>
+            <div className="font-bold text-xs">{player.name}</div>
             <div className="text-xs text-gray-400">
               {player.points}pts W:{player.wins} L:{player.losses}
             </div>
-            <div className="grid grid-cols-3 gap-1 w-full mt-1">
+            <div className="grid grid-cols-3 gap-1 w-full">
               <button onClick={() => updatePlayer(player.name, { points: player.points + 1 })} className="bg-blue-600 py-1 rounded text-xs">+Pt</button>
               <button onClick={() => updatePlayer(player.name, { wins: player.wins + 1 })} className="bg-green-600 py-1 rounded text-xs">+W</button>
               <button onClick={() => updatePlayer(player.name, { losses: player.losses + 1 })} className="bg-red-600 py-1 rounded text-xs">+L</button>
